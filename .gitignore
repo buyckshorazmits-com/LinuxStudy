@@ -1,0 +1,11 @@
+# C/C++ object files
+*.o
+
+# Linux executable files
+*.out
+*.exe
+
+# 当前工程产生的可执行文件
+hello_app
+main
+main3
