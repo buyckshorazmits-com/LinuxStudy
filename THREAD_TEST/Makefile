@@ -44,3 +44,8 @@ mutex_test: mutex_test.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+rwlock_test_writer_unlock: rwlock_test_writer_unlock.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@

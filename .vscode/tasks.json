@@ -8,7 +8,7 @@
       "args": [
         "-g",
         "-Wall",
-        "*.c",
+        "${file}",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}"
       ],
@@ -44,7 +44,7 @@
     {
       "label": "编译并运行当前文件",
       "type": "shell",
-      "command": "gcc -g -Wall \"${fileDirname}\"/*.c -o \"${fileDirname}/hello_app\" && \"${fileDirname}/hello_app\"",
+      "command": "gcc -g -Wall \"${file}\" -o \"${fileDirname}/${fileBasenameNoExtension}\" && \"${fileDirname}/${fileBasenameNoExtension}\"; rm -f \"${fileDirname}/${fileBasenameNoExtension}\"",
       "group": {
         "kind": "build",
         "isDefault": false
@@ -65,9 +65,9 @@
       "args": [
         "-fdiagnostics-color=always",
         "-g",
-        "${fileDirname}/*.c",
+        "${file}",
         "-o",
-        "${fileDirname}/hello_app"
+        "${fileDirname}/${fileBasenameNoExtension}"
       ],
       "options": {
         "cwd": "${fileDirname}"
@@ -80,6 +80,46 @@
         "isDefault": true
       },
       "detail": "调试器生成的任务。"
+    },
+    {
+      "label": "make（选择目标）",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "${input:makeTarget}"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "detail": "在 Makefile 所在目录执行 make <目标>（编译 + 运行 + 清理）"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "makeTarget",
+      "type": "pickString",
+      "description": "选择 Makefile 目标",
+      "options": [
+        "rwlock_test_writer_unlock",
+        "mutex_test",
+        "race_condition_test",
+        "create_test",
+        "terminal_test",
+        "pthread_detach",
+        "pthread_cancel_deffered_test",
+        "pthread_cancel_async_test",
+        "pthread_cancel_disabled_test",
+        "pthread_cancel_pending_test"
+      ]
     }
   ]
 }

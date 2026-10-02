@@ -1,3 +1,26 @@
 {
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "makefile.configureOnOpen": true,
+    "makefile.defaultConfiguration": "THREAD_TEST",
+    "makefile.buildBeforeLaunch": false,
+    "makefile.configurations": [
+        {
+            "name": "THREAD_TEST",
+            "makeDirectory": "${workspaceFolder}/THREAD_TEST",
+            "makefilePath": "${workspaceFolder}/THREAD_TEST/Makefile",
+            "makeArgs": [
+                "rwlock_test_writer_unlock"
+            ]
+        },
+        {
+            "name": "FILE_IO",
+            "makeDirectory": "${workspaceFolder}/FLIE_IO",
+            "makefilePath": "${workspaceFolder}/FLIE_IO/Makefile"
+        },
+        {
+            "name": "ROOT",
+            "makeDirectory": "${workspaceFolder}",
+            "makefilePath": "${workspaceFolder}/Makefile"
+        }
+    ]
 }
