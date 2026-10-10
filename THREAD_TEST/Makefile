@@ -69,3 +69,11 @@ rwlock_hungry_solved: rwlock_hungry_solved.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+# condition_var 是永不退出的死循环 demo:Ctrl+C 中断时 rm 执行不到,残留的二进制会被 make 当成"已是最新"而跳过一切
+# 声明为伪目标(.PHONY)后,每次 make 都会强制重新编译并运行
+.PHONY: condition_var
+condition_var: condition_var.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
