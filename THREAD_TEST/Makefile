@@ -77,3 +77,13 @@ condition_var: condition_var.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+unnamed_sem_bin_thread_condition: unnamed_sem_bin_thread_condition.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
+
+unnamed_sem_bin_thread: unnamed_sem_bin_thread.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
