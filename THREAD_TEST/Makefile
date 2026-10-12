@@ -97,3 +97,13 @@ unnamed_sem_bin_process: unnamed_sem_bin_process.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+unnamed_sem_bin_process: unnamed_sem_bin_process.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
+
+unnamed_sem_bin_process_illegal: unnamed_sem_bin_process_illegal.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
