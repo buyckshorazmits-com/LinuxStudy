@@ -2,7 +2,7 @@
 #include<unistd.h>
 #include<pthread.h>
 #include<semaphore.h>
-
+//作为二进制信号量用于线程间通信   这里加入静态条件 
 int share_num=0;
 
 void *plusOne(void *argv)
