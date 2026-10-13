@@ -122,3 +122,8 @@ unnamed_sem_count_process: unnamed_sem_count_process.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+named_sem_bin: named_sem_bin.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
