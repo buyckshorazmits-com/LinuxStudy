@@ -98,10 +98,6 @@ unnamed_sem_bin_process: unnamed_sem_bin_process.c
 	-./$@
 	-rm ./$@
 
-unnamed_sem_bin_process: unnamed_sem_bin_process.c
-	-$(CC) -o $@ $^
-	-./$@
-	-rm ./$@
 
 unnamed_sem_bin_process_illegal: unnamed_sem_bin_process_illegal.c
 	-$(CC) -o $@ $^
@@ -137,5 +133,11 @@ named_sem_no_unlink: named_sem_no_unlink.c
 	-$(CC) -o $@ $^
 	-./$@ 
 	-rm ./$@
+
+thread_pool_test: thread_pool_test.c
+	-$(CC) -o $@ $^ `pkg-config --cflags --libs glib-2.0`
+	-./$@ 
+	-rm ./$@
+
 
 	
