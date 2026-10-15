@@ -127,3 +127,15 @@ named_sem_bin: named_sem_bin.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+named_sem_count: named_sem_count.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
+
+named_sem_no_unlink: named_sem_no_unlink.c
+	-$(CC) -o $@ $^
+	-./$@ 
+	-rm ./$@
+
+	
