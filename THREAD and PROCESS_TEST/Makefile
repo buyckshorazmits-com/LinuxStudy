@@ -25,3 +25,8 @@ process_group_father_son_test: process_group_father_son_test.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+process_group_two_group: process_group_two_group.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
