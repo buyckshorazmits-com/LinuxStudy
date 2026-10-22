@@ -25,3 +25,16 @@ int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 这种字节序遵循自然数字的书写习惯，也被称为网络字节序（Network Byte Order）或网络标准字节序，因为它在网络通信中被广泛采用，如IP协议就要求使用大端字节序。
 （2）小端字节序（Little-Endian）：低位字节存储在内存的低地址处，高位字节存储在高地址处。这是Intel x86-64架构以及其他一些现代处理器普遍采用的字节序，称为主机字节序（Host Byte Order）
 
+
+
+in_addr_t / struct in_addr
+用于在程序中存储 IPv4 地址。
+
+inet_addr() / inet_aton() / inet_pton()
+将人能读懂的 IP 地址字符串转换成程序使用的二进制地址表示。
+
+inet_ntoa() / inet_ntop()
+将二进制 IP 地址转换为可读的字符串。
+
+inet_lnaof() / inet_netof() / inet_makeaddr()
+用于从 IPv4 地址中提取传统的网络号、主机号，或者将它们组合起来。现代网络编程中通常较少使用
