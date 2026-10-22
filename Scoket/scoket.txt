@@ -1,0 +1,27 @@
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int socket(int domain, int type, int protocol);
+
+domain	地址族，使用哪种地址体系	AF_INET，IPv4
+type	Socket 类型	SOCK_STREAM，字节流
+protocol	具体协议	0，由系统选择默认协议
+
+常见的IPV4 TCP 通信：
+
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+创建一个使用 IPv4 地址体系、面向连接的字节流通信端点，并返回一个文件描述符，程序可以用类似文件操作的方式管理网络通信端点。
+
+这里的Socket 既是一个网络通信的概念 也是一个Linux提供的一套编程接口 ，socket()是其中一个函数
+
+  Socket（套接字）  首先Socket 是网络通信的端点。应用程序通过它与网络进行数据交换。相当于程序与网络之间的一个通信接口
+  Linux Socket API  Linux 提供了一系列函数，让应用程序能够创建 Socket、绑定地址、建立连接、发送和接收数据。
+  例如：socket()、bind()、listen()、accept()、connect()、send()、recv()。
+
+网络字节序和主机字节序转化
+
+在网络编程中，特别是在跨平台和网络通信时，字节序（Byte Order）是非常重要的概念。字节序指的是多字节数据在内存中的存储顺序。
+（1）大端字节序（Big-Endian）：高位字节存储在内存的低地址处，低位字节存储在高地址处。
+这种字节序遵循自然数字的书写习惯，也被称为网络字节序（Network Byte Order）或网络标准字节序，因为它在网络通信中被广泛采用，如IP协议就要求使用大端字节序。
+（2）小端字节序（Little-Endian）：低位字节存储在内存的低地址处，高位字节存储在高地址处。这是Intel x86-64架构以及其他一些现代处理器普遍采用的字节序，称为主机字节序（Host Byte Order）
+
