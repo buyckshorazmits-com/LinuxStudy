@@ -9,3 +9,6 @@
 hello_app
 main
 main3
+
+# 缓冲区测试生成的输出文件
+Scoket/testfile.txt

@@ -7,7 +7,7 @@
 #include<arpa/inet.h>
 #include<pthread.h>
 #include<unistd.h>
-
+//为便于分析连接建立及销毁过程，本例程仅支持同时建立单个TCP连接。
 #define handle_error(cmd,result)\
    if(result< 0)                   \
     {                                \

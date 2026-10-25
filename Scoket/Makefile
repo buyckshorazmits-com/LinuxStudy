@@ -24,3 +24,8 @@ single_conn: $(single_conn_executables)
 
 single_conn_clean:
 	-rm ./$(word 1, $(single_conn_executables)) ./$(word 2, $(single_conn_executables))
+
+without_buf_test: without_buf_test.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
