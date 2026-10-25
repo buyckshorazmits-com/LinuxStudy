@@ -34,7 +34,7 @@
         {
           perror("recv");
         }
-        fputs(read_buf,stdout);
+        fputs(read_buf,stdout);//将缓存区read_buf的字符串写到终端
       }
 
       printf("客户端请求关闭连接........\n");
@@ -66,6 +66,7 @@
     
     while (fgets(write_buf,1024,stdin)!=NULL)
     {
+      //将服务端的缓冲区write_buf里的数据发送到已建立的 TCP 连接上
       send_count=send(client_fd,write_buf,1024,0);
 
       if(send_count<0)
@@ -91,12 +92,12 @@
     struct sockaddr_in server_addr,client_addr;
 
     memset(&server_addr,0,sizeof(server_addr));
-    memset(&client_addr,0,sizeof(server_addr));
+    memset(&client_addr,0,sizeof(client_addr));
     //声明ipv4通信协议
     server_addr.sin_family= AF_INET;
     //绑定0.0.0.0地址，转换成网络字节序后完成设置
-    server_addr.sin_addr.s_addr=htonl(INADDR_ANY);
-    //端口随便用一个，但是不要用特权窗口
+    server_addr.sin_addr.s_addr=htonl(INADDR_ANY);// INADDR_ANY(0.0.0.0)：监听本机所有网卡的 IP，任何来源都能连进来
+    //端口随便用一个，但是不要用特权端口
     server_addr.sin_port=htons(6666);
     //创建server socket
     sockfd=socket(AF_INET,SOCK_STREAM,0);
