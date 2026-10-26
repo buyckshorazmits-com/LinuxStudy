@@ -93,10 +93,13 @@
 
     memset(&server_addr,0,sizeof(server_addr));
     memset(&client_addr,0,sizeof(client_addr));
+  
     //声明ipv4通信协议
     server_addr.sin_family= AF_INET;
     //绑定0.0.0.0地址，转换成网络字节序后完成设置
+    //这行主要是给bind()使用 在哪个本地 IP 上监听  
     server_addr.sin_addr.s_addr=htonl(INADDR_ANY);// INADDR_ANY(0.0.0.0)：监听本机所有网卡的 IP，任何来源都能连进来
+    
     //端口随便用一个，但是不要用特权端口
     server_addr.sin_port=htons(6666);
     //创建server socket

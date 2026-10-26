@@ -29,3 +29,9 @@ without_buf_test: without_buf_test.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+line_buf_test: line_buf_test.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
+	

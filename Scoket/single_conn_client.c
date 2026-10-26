@@ -88,14 +88,18 @@ int main(int argc, char const *argv[])
     memset(&server_addr, 0, sizeof(server_addr));
     memset(&client_addr, 0, sizeof(client_addr));
 
+
+    //这里配置的是对端的地址  127.0.0.1是服务端ip 6666是服务端监听端口
     server_addr.sin_family = AF_INET;//给地址族结构体设置 地址族或协议族 告诉内核地址是按照ipv4的格式解释的
-    // 连接本机 127.0.0.1
+    // 连接本机 127.0.0.1   主要为了connect()
     server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);//目标服务器配置成127.0.0.1
     // 连接端口 6666
     server_addr.sin_port = htons(6666);//端口配置成6666
 
+
+
     client_addr.sin_family = AF_INET;
-    // 连接本机 192.168.10.150
+    
     client_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     // 连接端口 8888
     client_addr.sin_port = htons(8888);

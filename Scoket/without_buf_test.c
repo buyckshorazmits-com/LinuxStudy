@@ -6,7 +6,7 @@
 int main()
 {
   FILE *file=fopen("/home/linux/vscoding/Scoket/testfile.txt","w");
-
+//清除文本文件testfile.txt 中以前的内容
   if(file==NULL)
   {
     perror("Failed to open file");
