@@ -34,4 +34,8 @@ line_buf_test: line_buf_test.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
-	
+
+full_buf_fflush_test: full_buf_fflush_test.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@

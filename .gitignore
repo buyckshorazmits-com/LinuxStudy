@@ -12,3 +12,7 @@ main3
 
 # 缓冲区测试生成的输出文件
 Scoket/testfile.txt
+
+# Scoket 编译产生的可执行文件
+Scoket/single_conn_client
+Scoket/single_conn_server
