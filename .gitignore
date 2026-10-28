@@ -16,3 +16,5 @@ Scoket/testfile.txt
 # Scoket 编译产生的可执行文件
 Scoket/single_conn_client
 Scoket/single_conn_server
+Scoket/full_buf_test
+Scoket/line_buf_with_enter_test

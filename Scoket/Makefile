@@ -35,6 +35,16 @@ line_buf_test: line_buf_test.c
 	-./$@
 	-rm ./$@
 
+line_buf_with_enter_test: line_buf_with_enter_test.c
+	-$(CC) -o $@ $^
+	-./$@ 
+	-rm ./$@
+
+full_buf_test: full_buf_test.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
+
 full_buf_fflush_test: full_buf_fflush_test.c
 	-$(CC) -o $@ $^
 	-./$@
