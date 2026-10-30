@@ -1,10 +1,12 @@
 CC:=gcc
 
-.PHONY: single_conn single_conn_clean
+.PHONY: single_conn single_conn_clean multi_conn_threads multi_conn_threads_clean
 
 single_conn_executables:=single_conn_server single_conn_client
+multi_conn_threads_executables:=multi_conn_threads_server multi_conn_threads_client
 
-num_endianess_convert: num_endianess_convert.c
+
+num_endianess_convert: num_endianess_convert.c 
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
@@ -49,3 +51,14 @@ full_buf_fflush_test: full_buf_fflush_test.c
 	-$(CC) -o $@ $^
 	-./$@
 	-rm ./$@
+
+multi_conn_threads_server: multi_conn_threads_server.c
+	-$(CC) -o $@ $^
+
+multi_conn_threads_client: multi_conn_threads_client.c
+	-$(CC) -o $@ $^
+
+multi_conn_threads: $(multi_conn_threads_executables)
+
+multi_conn_threads_clean:
+	-rm ./$(firstword $(multi_conn_threads_executables)) ./$(lastword $(multi_conn_threads_executables))

@@ -18,6 +18,8 @@ if(result<0)                     \
 void *read_from_client_then_write(void *argv)
 {
   int client_fd=*(int *)argv;
+  //主线程把 fd 放在堆上传过来, 这里取完值就把这块内存还给系统, 防止内存泄漏
+  free(argv);
 
   ssize_t count=0,send_count=0;
   char *read_buf=NULL;
@@ -48,26 +50,29 @@ void *read_from_client_then_write(void *argv)
 
   }
 
-  while((count=recv(client_fd,read_buf,1024,0)))
+  //只收 1023 字节, 给 '\0' 留位置; 出错(-1)也不能再当成真值继续循环
+  while((count=recv(client_fd,read_buf,sizeof(char)*1024-1,0))>0)
   {
-    if(count<0)
-    {
-      perror("recv");
-
-    }
+    //recv 不补结束符, printf("%s") 依赖 '\0', 必须自己补
+    read_buf[count]='\0';
     printf("receive message from client_fd: %d :%s\n",client_fd,read_buf);
-    strcpy(write_buf,"reveived~\n");
-    send_count=send(client_fd,write_buf,1024,0);
+    strcpy(write_buf,"received~\n");
+    //按实际长度发送, 避免把缓冲区里的残留数据一起发到网络上
+    send_count=send(client_fd,write_buf,strlen(write_buf),0);
     if(send_count<0)
     {
       perror("send");
     }
   }
+  if(count<0)
+  {
+    perror("recv");
+  }
 
   printf("客户端client_fd: %d 请求关闭连接.......\n",client_fd);
   strcpy(write_buf,"receive your shutdown signal \n");
 
-  send_count=send(client_fd,write_buf,1024,0);
+  send_count=send(client_fd,write_buf,strlen(write_buf),0);
   if(send_count<0)
   {
     perror("send");
@@ -83,7 +88,7 @@ void *read_from_client_then_write(void *argv)
 
 }
 
-int main(int argc,char const *argv[])
+int main(void)
 {
   int sockfd,temp_result;
   struct sockaddr_in server_addr,client_addr;
@@ -115,6 +120,8 @@ int main(int argc,char const *argv[])
   //接受client连接
   while (1)
   {
+    //accept 可能改写 cliaddr_len, 所以每轮都重新赋值
+    cliaddr_len = sizeof(client_addr);
     int client_fd=accept(sockfd,(struct sockaddr *)&client_addr,&cliaddr_len);
     handle_error("accpet",client_fd);
 
@@ -124,9 +131,24 @@ int main(int argc,char const *argv[])
     //启动一个子线程，用来读取客户端数据，并打印到stout
     //注意，此处的pid_read_write不是线程id,而是用于线程处理函数的标识符
 
-    if(pthread_create(&pid_read_write, NULL, read_from_client_then_write, (void *)&client_fd))
+    //client_fd 是循环体里的局部变量, 每轮 accept 都会改写同一块栈内存;
+    //如果直接传 &client_fd, 线程真正取值的时机由调度器决定, 可能已经被下一轮覆盖
+    //(上一轮的那个变量甚至已经出了作用域), 所以先复制一份到堆上, 线程用完自己 free
+    int *p_client_fd = malloc(sizeof(int));
+    if(!p_client_fd)
+    {
+      perror("malloc p_client_fd");
+      close(client_fd);
+      continue;
+    }
+    *p_client_fd = client_fd;
+
+    if(pthread_create(&pid_read_write, NULL, read_from_client_then_write, (void *)p_client_fd))
     {
       perror("pthread_create");
+      close(client_fd);  //线程没启动, 这条连接只能由主线程来关
+      free(p_client_fd);//这块内存也要回收
+      continue;
     }
     //将子进程处理为detached状态，使其终止是自动回收资源，同时不阻塞主线程
     

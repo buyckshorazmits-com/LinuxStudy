@@ -18,3 +18,5 @@ Scoket/single_conn_client
 Scoket/single_conn_server
 Scoket/full_buf_test
 Scoket/line_buf_with_enter_test
+Scoket/multi_conn_threads_server
+Scoket/multi_conn_threads_client
