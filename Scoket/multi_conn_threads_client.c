@@ -35,10 +35,12 @@ void *read_from_server(void * argv)
   //只收 1023 字节, 把最后一个字节留给 '\0'
   while((count=recv(sockfd,read_buf,sizeof(char)*1024-1,0))>0)
   {
+    //接受服务端 收到数据后 恢复的信息
     //recv 不会自动补结束符, 而 fputs 依赖 '\0', 必须自己补
     read_buf[count]='\0';
-    fputs(read_buf,stdout);
-    fflush(stdout);
+    fputs(read_buf,stdout);//这里使用fputs将read_buf的数据放进缓冲区
+    fflush(stdout);//将在stdout缓冲区还没写出的数据  将给内核 ，清空缓冲区
+    //缓冲模式决定的是“你什么时候能看到结果”和“崩溃时结果还在不在
   }
 
   if(count<0)

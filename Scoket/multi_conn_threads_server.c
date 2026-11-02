@@ -25,14 +25,14 @@ void *read_from_client_then_write(void *argv)
   char *read_buf=NULL;
   char *write_buf=NULL;
 
-  read_buf =malloc(sizeof(char) *1024);
+  read_buf =malloc(sizeof(char) *1024);//分配成功返回堆内存的一个首地址   失败返回NULL
   //判断内存是否分配成功
   if(!read_buf)
   {
-    printf("服务器度环村创建异常，断开连接\n");
+    printf("服务器读缓存创建异常，断开连接\n");
     shutdown(client_fd,SHUT_WR);
     close(client_fd);
-    perror("malloc sever read_buf");
+    perror("malloc server read_buf");
 
     return NULL;
   }
@@ -42,7 +42,7 @@ void *read_from_client_then_write(void *argv)
   {
     printf("服务端写缓存创建异常，端开连接\n");
     free(read_buf);
-    shutdown(client_fd,SHUT_WR);
+    shutdown(client_fd,SHUT_WR);//关闭写端, 让客户端知道服务端要断开连接了, 这样客户端就可以从 recv() 返回 0 来判断服务端断开了连接
     close(client_fd);
     perror("malloc server write_buf");
 
