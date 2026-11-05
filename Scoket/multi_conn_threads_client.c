@@ -7,7 +7,7 @@
 #include<arpa/inet.h>
 #include<unistd.h>
 #include<pthread.h>
-
+// 客户端基于多线程的范例程序
 #define handle_error(cmd,result)  \
   if(result<0)                    \
   {                               \
