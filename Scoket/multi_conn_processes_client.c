@@ -108,7 +108,7 @@
 
     server_addr.sin_family=AF_INET;
     //连接到本机 127.0.0.1
-    server_addr.sin_addr.s_addr=htonl(INADDR_LOOPBACK); 
+    server_addr.sin_addr.s_addr=htonl(INADDR_LOOPBACK); //配置服务端的目标IP和端口INADDR_LOOPBACK=127.0.0.1
     //配置到端口6666
     server_addr.sin_port=htons(6666);
     

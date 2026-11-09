@@ -132,7 +132,7 @@ int main(int argc, char const *argv[])
   //声明IPV4的通信协议 
   server_addr.sin_family=AF_INET;
   //绑定0.0.0.0地址，转换成网络字节序后完成设置
-  server_addr.sin_addr.s_addr=htonl(INADDR_ANY);
+  server_addr.sin_addr.s_addr=htonl(INADDR_ANY);//绑定本机所有 IPv4 网络接口,接受发往本机任意IPV4网卡的数据  INADDR_ANY = 0.0.0.0
   //端口随便用一个，但是不要使用特权端口
   server_addr.sin_port=htons(6666);
 
