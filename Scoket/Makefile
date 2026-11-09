@@ -1,11 +1,12 @@
 CC:=gcc
 
-.PHONY: single_conn single_conn_clean multi_conn_threads multi_conn_threads_clean multi_conn_processes multi_conn_processes_clean
+.PHONY: single_conn single_conn_clean multi_conn_threads multi_conn_threads_clean multi_conn_processes multi_conn_processes_clean  udp_test udp_test_clean
 
 single_conn_executables:=single_conn_server single_conn_client
 multi_conn_threads_executables:=multi_conn_threads_server multi_conn_threads_client
 multi_conn_processes_executables:=multi_conn_processes_server   multi_conn_processes_client
 
+udp_test_executables:=udp_server udp_client
 num_endianess_convert: num_endianess_convert.c 
 	-$(CC) -o $@ $^
 	-./$@
@@ -73,3 +74,14 @@ multi_conn_processes: $(multi_conn_processes_executables)
 
 multi_conn_processes_clean:
 	-rm -f ./$(word 1, $(multi_conn_processes_executables)) ./$(word 2, $(multi_conn_processes_executables))
+
+udp_server: udp_server.c
+	-$(CC) -o $@ $^
+
+udp_client: udp_client.c
+	-$(CC) -o $@ $^
+
+udp_test: $(udp_test_executables)
+
+udp_test_clean:
+	-rm ./$(firstword $(udp_test_executables)) ./$(lastword $(udp_test_executables))

@@ -87,9 +87,9 @@ void  *read_from_client_then_write(void *argv)
 
     printf("服务端pid: %d :receive message from client_fd: %d : %s \n",getpid(),client_fd,read_buf);
 
-    sprintf(write_buf,"服务端pid: %d : received~\n",getpid());
+    sprintf(write_buf,"服务端pid: %d : received~\n",getpid());//将这个写入write_buf
     //按实际长度发送; 固定发 1024 字节会把 malloc 后未初始化的残留数据一起发到网络
-    send_count=send(client_fd,write_buf,strlen(write_buf),0);
+    send_count=send(client_fd,write_buf,strlen(write_buf),0);//服务端->客户端
     if(send_count<0)
     {
       perror("send");
