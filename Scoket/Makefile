@@ -1,6 +1,6 @@
 CC:=gcc
 
-.PHONY: single_conn single_conn_clean multi_conn_threads multi_conn_threads_clean multi_conn_processes multi_conn_processes_clean  udp_test udp_test_clean
+.PHONY: single_conn single_conn_clean multi_conn_threads multi_conn_threads_clean multi_conn_processes multi_conn_processes_clean  udp_test udp_test_clean socket_ipc_test_clean
 
 single_conn_executables:=single_conn_server single_conn_client
 multi_conn_threads_executables:=multi_conn_threads_server multi_conn_threads_client
@@ -85,3 +85,9 @@ udp_test: $(udp_test_executables)
 
 udp_test_clean:
 	-rm ./$(firstword $(udp_test_executables)) ./$(lastword $(udp_test_executables))
+
+socket_ipc_test: socket_ipc_test.c
+	$(CC) -o $@ $^
+
+socket_ipc_test_clean:
+	-rm ./socket_ipc_test

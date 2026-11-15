@@ -22,3 +22,7 @@ Scoket/multi_conn_threads_server
 Scoket/multi_conn_threads_client
 Scoket/udp_server
 Scoket/udp_client
+Scoket/socket_ipc_test
+
+# UNIX Domain Socket 运行期生成的套接字文件
+unix_domain.socket
