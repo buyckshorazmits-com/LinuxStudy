@@ -29,7 +29,7 @@ void server_mode(int sockfd)
   int client_fd,msg_len;
   static struct sockaddr_un client_addr;
 
-  if(bind(sockfd,(struct sockaddr *)&socket_addr,sizeof(socket_addr))<0)
+  if(bind(sockfd,(struct sockaddr *)&socket_addr,sizeof(socket_addr))<0)//相当于绑定本地通信地址 "unix_domain.socket"
   {
     handle_error("bind");
   }
@@ -84,7 +84,7 @@ unlink(SOCKET_PATH);
 void client_mode(int sockfd)
 {
   int msg_len,header_len;
-  if(connect(sockfd,(struct sockaddr *)&socket_addr,sizeof(socket_addr)))
+  if(connect(sockfd,(struct sockaddr *)&socket_addr,sizeof(socket_addr)))//在客户端中通过相同的通信地址连接
   {
     handle_error("connect");
   }
@@ -121,10 +121,12 @@ void client_mode(int sockfd)
 }
 int main(int  argc,char const *argv[])
 {
+  //argc表示命令行参数的数量   argv[]表示命令行参数的字符串数组
+  //例如输入 ./unix_domain server  argc=2   argv[0]=./unix_domain  argv[1]=server
   int fd=0,mode=0;
 
   if(argc==1||strncmp(argv[1],"server",6)==0)
-  {
+  {//若输入一个命令行参数  默认是进入服务端
     mode=SERVER_MODE;
   }
   else if(strncmp(argv[1],"client",6)==0)
@@ -139,12 +141,12 @@ int main(int  argc,char const *argv[])
   }
    //address 初始化
    memset(&socket_addr,0,sizeof(struct sockaddr_un));
-   buf=malloc(BUF_LEN+1);
+   buf=malloc(BUF_LEN+1);//存放字符串"\0"
    //给address赋值
 
-   socket_addr.sun_family=AF_UNIX;
-   strcpy(socket_addr.sun_path,SOCKET_PATH);
-
+   socket_addr.sun_family=AF_UNIX;//告诉操作系统使用AF_UNIX地址  
+   strcpy(socket_addr.sun_path,SOCKET_PATH);//通过"unix_domain.socket"本地路径进行通信
+      
    if((fd =socket(AF_UNIX,SOCK_STREAM,0))<0)
    {
     handle_error("socket");
