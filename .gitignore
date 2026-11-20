@@ -26,3 +26,8 @@ Scoket/socket_ipc_test
 
 # UNIX Domain Socket 运行期生成的套接字文件
 unix_domain.socket
+
+# Daemon_And_Multiplex 编译产生的可执行文件
+Daemon_And_Multiplex/tcp_server
+Daemon_And_Multiplex/tcp_client
+Daemon_And_Multiplex/daemon_test
