@@ -99,20 +99,22 @@ void read_from_client_then_write(void *argv)
    return ;
   }
 
-  while((count=recv(client_fd,read_buf,1024,0)))
+  // recv 返回 >0 才是真正读到数据；<0 是出错，0 是对端关闭写端
+  while((count=recv(client_fd,read_buf,1023,0))>0)
   {
-    if(count<0)
-    {
-      syslog(LOG_ERR,"server recv error");
+    read_buf[count]='\0';//recv 不会自动补字符串结束符，不补会影响后面的 %s/syslog
 
-    }
     sprintf(log_buf,"服务端pid: %d :receive message from client_fd: %d :%s",getpid(),client_fd,read_buf);
     syslog(LOG_INFO,"%s",read_buf);
     memset(log_buf,0,1024);
 
     sprintf(write_buf,"服务端pid: %d :received~\n",getpid());
-    send_count=send(client_fd,write_buf,1024,0);
+    send_count=send(client_fd,write_buf,strlen(write_buf),0);//发往客户端内容
 
+  }
+  if(count<0)
+  {
+    syslog(LOG_ERR,"server recv error");
   }
 
     sprintf(log_buf,"服务端pid: %d :客户端client_fd:%d 请求关闭连接 ......\n",getpid(),client_fd);
@@ -120,7 +122,7 @@ void read_from_client_then_write(void *argv)
 
     sprintf(write_buf,"服务端pid: %d :receive your shutdown signal\n",getpid());
 
-    send_count=send(client_fd,write_buf,1024,0);
+    send_count=send(client_fd,write_buf,strlen(write_buf),0);
 
     sprintf(log_buf,"服务端pid : %d :释放client_fd: %d资源\n",getpid(),client_fd);
 

@@ -5,7 +5,7 @@
             "name": "调试当前文件 (gcc)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/hello_app",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
@@ -17,6 +17,42 @@
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: gcc 生成活动文件"
+        },
+        {
+            "name": "调试当前文件 (跟随 fork 子进程)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "fork 之后 gdb 跟随子进程（守护进程调试必需）",
+                    "text": "set follow-fork-mode child",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "不保留被甩掉的父进程，避免多个 inferior 干扰",
+                    "text": "set detach-on-fork on",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "execve 换成 tcp_server 后，tcp_server.c 里的断点也能自动生效",
+                    "text": "set breakpoint pending on",
                     "ignoreFailures": true
                 }
             ],

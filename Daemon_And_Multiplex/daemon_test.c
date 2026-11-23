@@ -92,7 +92,7 @@ void my_daemonize()
     close(x);
   }
 
-  openlog("this is our daemonize process: ",LOG_PID,LOG_DAEMON);
+  openlog("this is our daemonize process: ",LOG_PID,LOG_DAEMON);//建立并初始化系统日志记录环境，让守护进程能够把运行过程中的信息、错误和异常记录到 Linux 系统日志中，而不是输出到终端。
 }
 
 int main()
@@ -111,12 +111,12 @@ int main()
       
       if(is_shutdown)
       {
-        syslog(LOG_NOTICE,"子进程已被回收，即将关闭syslog连接，守护进程退出");
+        syslog(LOG_NOTICE,"子进程已被回收,即将关闭syslog连接,守护进程退出");
         closelog();
 
         exit(EXIT_SUCCESS);
       }
-      syslog(LOG_ERR,"服务端进程终止，3s秒后重启....");
+      syslog(LOG_ERR,"服务端进程终止,3s秒后重启....");
       sleep(3);
 
     }

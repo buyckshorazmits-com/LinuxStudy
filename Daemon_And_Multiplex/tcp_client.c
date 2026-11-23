@@ -29,16 +29,23 @@ void *read_from_server(void *argv)
 
   }
 
-  while(count =recv(sockfd,read_buf,1024,0))
+  while(1)
   {
+    count =recv(sockfd,read_buf,1023,0);
+    if(count==0)
+    {
+      break;
+    }
     if(count<0)
     {
       perror("recv");
+      break;
     }
+    read_buf[count]='\0';
     fputs(read_buf,stdout);
   }
 
-  pritnf("收到服务端的终止信号.....\n");
+  printf("收到服务端的终止信号.....\n");
   free(read_buf);
 
   return NULL;
@@ -63,9 +70,13 @@ void *write_to_server(void *argv)
 
   }
 
+  // 坑：原来写的是 fgets(write_buf, strlen(write_buf), stdin)
+  // 第二个参数是“缓冲区大小”，而 write_buf 是 malloc 的未初始化内存，
+  // strlen 通常得 0 → fgets(_,0,_) 直接返回 NULL → 一次输入都没读就退出
   while(fgets(write_buf,1024,stdin)!=NULL)
   {
-   send_count=send(sockfd,write_buf,1024,0);
+   // 只发实际读到的字节数，不能固定发 1024（会把缓冲区里的垃圾一起发过去）
+   send_count=send(sockfd,write_buf,strlen(write_buf),0);
    if(send_count<0)
    {
    
@@ -111,7 +122,7 @@ int main(int argc,char const *argv[])
   //启动子线程 用于读取服务端的数据，并打印到stdout
   pthread_create(&pid_read,NULL,read_from_server,(void *)&sockfd);
   //启动子线程 用于从命令行里 读取数据发送到服务端
-  pthread_create(&pid_write,NULL,write_to_server,(void *)sockfd);
+  pthread_create(&pid_write,NULL,write_to_server,(void *)&sockfd);
 
   //主线程等待子线程关闭
   pthread_join(pid_read,NULL);
