@@ -102,6 +102,7 @@ void read_from_client_then_write(void *argv)
   // recv 返回 >0 才是真正读到数据；<0 是出错，0 是对端关闭写端
   while((count=recv(client_fd,read_buf,1023,0))>0)
   {
+    //count==0 时表示对端 写端关闭 表示对端不能数据
     read_buf[count]='\0';//recv 不会自动补字符串结束符，不补会影响后面的 %s/syslog
 
     sprintf(log_buf,"服务端pid: %d :receive message from client_fd: %d :%s",getpid(),client_fd,read_buf);

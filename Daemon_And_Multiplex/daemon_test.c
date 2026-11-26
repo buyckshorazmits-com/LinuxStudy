@@ -60,9 +60,6 @@ void my_daemonize()
   }
   //处理SIGHUP，SIGTERM信号
 
-  signal(SIGHUP,signal_handler);
-  signal(SIGTERM,signal_handler);
-
   //第一次fork()产生的是中间进程，调用setsid()创建新会话，第二次fork()创建的是守护进程
   //第二次创建的子进程 不会变成会话组的组长，进程组组长。从此无法再 open("/dev/tty") 拿到控制终端
   pid=fork();
