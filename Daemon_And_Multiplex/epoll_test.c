@@ -62,6 +62,7 @@ void clear_buf(char *buf)
 void set_nonblocking(int sockfd)
 {
   int opts=fcntl(sockfd,F_GETFL);
+  //读取文件操作符 在后面方便改变他的状态
 
   if(opts<0)
   {
