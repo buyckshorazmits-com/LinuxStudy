@@ -15,3 +15,8 @@ daemon_test: daemon_test.c tcp_clean tcp_server tcp_client
 	-$(CC) $(CFLAGS) -o $@ $<
 	-./$@
 	-rm ./$@
+
+epoll_test: epoll_test.c
+	-$(CC) -o $@ $^
+	-./$@
+	-rm ./$@
